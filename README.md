@@ -17,15 +17,15 @@
 在项目的gradle中配置：
 ```groovy
 buildscript {
-		repositories {
-			...
-			maven { url 'https://www.jitpack.io' }
-		}
-	    dependencies {
-			...
-            classpath 'com.github.alfredxl:ARouterOptimize:1.0.1'
-        }
-	}
+    repositories {
+        ...
+        maven { url 'https://www.jitpack.io' }
+    }
+    dependencies {
+        ...
+        classpath 'com.github.alfredxl:ARouterOptimize:1.0.1'
+    }
+}
 ```
 在app的gradle中配置
 ```groovy
