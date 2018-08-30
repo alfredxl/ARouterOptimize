@@ -72,15 +72,15 @@ public class ARouterOptimizeTransform extends Transform {
             mClassPool.appendClassPath(AndroidJarPath.getPath(project));
             Map<String, String> dirMap = new HashMap<>();
             Map<String, String> jarMap = new HashMap<>();
-            File arouterOut = null;
+            File mARouterOut = null;
             for (TransformInput input : inputs) {
                 for (DirectoryInput directoryInput : input.getDirectoryInputs()) {
                     // 获取output目录
                     File dest = outputProvider.getContentLocation(directoryInput.getName(),
                             directoryInput.getContentTypes(), directoryInput.getScopes(),
                             Format.DIRECTORY);
-                    if (arouterOut == null) {
-                        arouterOut = outputProvider.getContentLocation(directoryInput.getName(),
+                    if (mARouterOut == null) {
+                        mARouterOut = outputProvider.getContentLocation(directoryInput.getName(),
                                 directoryInput.getContentTypes(), directoryInput.getScopes(),
                                 Format.DIRECTORY);
                     }
@@ -99,8 +99,8 @@ public class ARouterOptimizeTransform extends Transform {
                     File dest = outputProvider.getContentLocation(jarName + md5Name,
                             jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
 
-                    if (arouterOut == null) {
-                        arouterOut = outputProvider.getContentLocation(jarName + md5Name + 1,
+                    if (mARouterOut == null) {
+                        mARouterOut = outputProvider.getContentLocation(jarName + md5Name + 1,
                                 jarInput.getContentTypes(), jarInput.getScopes(), Format.DIRECTORY);
                     }
                     jarMap.put(jarInput.getFile().getAbsolutePath(), dest.getAbsolutePath());
@@ -108,20 +108,20 @@ public class ARouterOptimizeTransform extends Transform {
                 }
             }
 
-            if (arouterOut != null) {
-                ARouterCreate.getInstance().createClass(arouterOut, mClassPool);
+            if (mARouterOut != null) {
+                ARouterCreate.getInstance().createClass(mARouterOut, mClassPool);
             }
 
             for (Map.Entry<String, String> item : dirMap.entrySet()) {
-                System.out.println("ARouterOptimize ： perform_directory : " + item.getKey());
+                System.out.println("ARouterOptimize ： perform_directory : " + item.getKey() + "to path :" + item.getValue());
                 Inject.injectDir(item.getKey(), item.getValue(), mClassPool);
             }
 
             for (Map.Entry<String, String> item : jarMap.entrySet()) {
-                System.out.println("ARouterOptimize ： perform_jar : " + item.getKey());
+                System.out.println("ARouterOptimize ： perform_jar : " + item.getKey() + "to path :" + item.getValue());
                 Inject.injectJar(item.getKey(), item.getValue(), mClassPool);
             }
-            if (arouterOut != null) {
+            if (mARouterOut != null) {
                 ARouterCreate.getInstance().writeToFile();
                 ARouterCreate.reSet();
             }
